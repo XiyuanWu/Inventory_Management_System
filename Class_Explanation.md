@@ -30,6 +30,7 @@ Manages customer interactions with the system.
 
 **Attributes:**
 - `feedback (vector<string>)`: List of customer feedback strings.
+- `shopping_cart (vector<inventory>`: List of customer's shopping cart.
 
 **Methods:**
 - `void browseProducts() const`: Displays products available for purchase.

@@ -55,9 +55,13 @@ This is an inventory management system for a grocery store. Features include:
 
 ### Navigation Diagram
 
+![](./Element/Inventory%20Management%20System.svg)
 
 ### Class Diagram
 
+![](./Element/UML%20Class%20Diagram.svg)
+
+More detail in [Class Explanation](./Class_Explanation.md).
 
 ## Example Output
 

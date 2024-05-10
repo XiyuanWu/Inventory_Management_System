@@ -33,8 +33,10 @@ Manages customer interactions with the system.
 
 **Methods:**
 - `void browseProducts() const`: Displays products available for purchase.
-- `void purchaseProduct(int productID, int quantity)`: Processes the purchase of a product.
+- `void purchaseProduct(int productID, int quantity)`: Adds product to cart and initiates purchase.
+- `void displayShoppingCart()`: Shows items in the shopping cart.
 - `void viewOrder() const`: Displays details of customer's orders.
+- `double findPrice(int productID)`: Calculate total item prices in shopping cart.
 - `void provideFeedback(string feedback)`: Allows customers to provide feedback.
 
 ### 3. **Admin Class**

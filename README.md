@@ -30,6 +30,7 @@ This is an inventory management system for a grocery store. Features include:
 - **System Management**:
   - **Backup and Restore**: Manage data backups and restore points for the system.
   - **System Settings**: Configure settings like tax rates or operational parameters.
+  - **Display Feedback**: Display feedback from customer and make improvement for store.
 
 ### Customer Features
 - **Shopping**:

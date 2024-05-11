@@ -5,22 +5,26 @@
 class Customer {
 
   private:
+    const Admin& admin;
     vector<string> feedback;
     vector<Inventory> shopping_cart;
+    vector<Inventory> order;
 
   public:
-  
+
+    Customer(const Admin& admin): admin(admin) {}
     // Shopping
     void browseProducts() const;
-    void purchaseProduct(int productID, int quantity);
+    void purchaseProduct();
     void displayShoppingCart();
+    void confirmOrder();
 
     // Order Inquiry
     void viewOrder() const;
+    double findTotalPrice();
 
     // Feedback System
-    double findPrice(int productID);
-    void provideFeedback(string feedback);
+    void provideFeedback();
 
   
 };

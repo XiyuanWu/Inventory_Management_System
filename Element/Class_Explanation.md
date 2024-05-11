@@ -37,8 +37,8 @@ Manages customer interactions with the system.
 - `void purchaseProduct(int productID, int quantity)`: Adds product to cart and initiates purchase.
 - `void displayShoppingCart()`: Shows items in the shopping cart.
 - `void viewOrder() const`: Displays details of customer's orders.
-- `double findPrice(int productID)`: Calculate total item prices in shopping cart.
-- `void provideFeedback(string feedback)`: Allows customers to provide feedback.
+- `double findTotalPrice(int productID)`: Calculate total item prices in shopping cart.
+- `void provideFeedback()`: Allows customers to provide feedback.
 
 ### 3. **Admin Class**
 Handles administrative tasks related to inventory and order management.

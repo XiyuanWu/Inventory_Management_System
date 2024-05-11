@@ -80,16 +80,16 @@ int main() {
         else if (option == 'c' || option == 'C') {
             customerMunu();
 
-            if (choice == 1.1) {
+            if (choice == 1) {
+                // Customer choose shopping, we will display all inventory first.
+                customer.browseProducts();
+                // After display, proceed with purchase product.
+                customer.purchaseProduct();
+            }
+            else if (choice == 2) {
 
             }
-            else if (choice == 1.2) {
-
-            }
-            else if (choice == 2.1) {
-
-            }
-            else if (choice == 3.1) {
+            else if (choice == 3) {
 
             }
             else {
@@ -151,16 +151,9 @@ void adminMunu() const {
 void customerMunu() const {
 
     cout << "Welcome! What would you like to do today?\n"
-         << "P1. Shopping\n"
-         << "1.1 Browse Products\n"
-         << "1.2 Purchase Products\n"
-         << endl
-         << "P2 Order Inquiry\n"
-         << "2.1 View Orders\n"
-         << endl
-         << "P3 Feedback System\n"
-         << "3.1 Provide Feedback\n"
-         << endl
-         << "Please enter corresponding number for your choice(eg '1.1', '3.1')." << endl;
+         << "1. Shopping\n"
+         << "2. View Orders\n"
+         << "3. Provide Feedback\n"
+         << "Please enter corresponding number for your choice(eg '1')." << endl;
 
 }

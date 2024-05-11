@@ -14,6 +14,10 @@ class Inventory {
 
 
   public:
+    // Inventory() : isValid_(false);
+    Inventory(int id, string name, int quantity, double price, string category, bool status):
+              id(id), name(name), quantity(quantity), price(price), category(category), status(status), isValid_(true) {}
+
     int getID() const           { return id;       }
     string getName() const      { return name;     }
     int getQuantity() const     { return quantity; }
@@ -28,6 +32,7 @@ class Inventory {
     double price;
     string category;
     bool status;
+    bool isValid_;
   
 };
 

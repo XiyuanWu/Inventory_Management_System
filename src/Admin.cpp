@@ -3,63 +3,81 @@
 #include <cmath>
 #include <string>
 #include <vector>
+#include <optional>
 
 #include "../header/Admin.h"
+#include "../header/Inventory.h"
 
 using namespace std;
 
 
 /*-----Inventory Management-----*/
-void addProduct(const Inventory&) {
+void Admin::addProduct(const Inventory&) {
 
 }
 
-void updateProduct(int productID, const Inventory&) {
+void Admin::updateProduct(int productID, const Inventory&) {
 
 }
 
-void removeProduct(int productID) {
+void Admin::removeProduct(int productID) {
 
 }
 
-void viewInventory() const {
+void Admin::viewInventory() const {
 
 }
 
 
 /*-----Order Management-----*/
-void viewAllOrders() const {
+void Admin::viewAllOrders() const {
 
 }
 
-void updateOrder(int orderID) {
+void Admin::updateOrder(int orderID) {
 
 }
 
-void recordSale(int productID, int quantity) {
+void Admin::recordSale(int productID, int quantity) {
 
 }
 
 
 /*-----Reporting-----*/
-void salesReport() const {
+void Admin::salesReport() const {
 
 }
 
-void inventoryReport() const {
+void Admin::inventoryReport() const {
 
 }
 
-void backupRestore() {
+void Admin::backupRestore() {
 
 }
 
 
 /*-----System Management-----*/
-void systemSettings() {
+void Admin::systemSettings() {
 
 }
 
-void displayFeedback() {
+void Admin::displayFeedback() {
 
 }
+
+/*-----Get inventory content-----*/
+const Inventory* Admin::getProductById(int id) const {
+    for (const auto& item : inventory) {
+        if (item.getID() == id) {
+            return &item; 
+        }
+    }
+    return nullptr; // no item found
+}
+
+ bool Admin::isProductInInventory(int id) const {
+    return any_of(inventory.begin(), inventory.end(), [id](const Inventory& item) {
+        return item.getID() == id;
+    });
+ }

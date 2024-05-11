@@ -1,6 +1,6 @@
 # Inventory Management System
 
-**COMING SOON!**
+**In Progress**
 
 ## Project Overview
 
@@ -61,7 +61,7 @@ This is an inventory management system for a grocery store. Features include:
 
 ![](./Element/UML%20Class%20Diagram.svg)
 
-More detail in [Class Explanation](./Class_Explanation.md).
+More detail in [Class Explanation](./Element/Class_Explanation.md).
 
 ## Example Output
 

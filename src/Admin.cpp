@@ -5,8 +5,9 @@
 #include <vector>
 #include <optional>
 
-#include "../header/Admin.h"
-#include "../header/Inventory.h"
+#include "header/Customer.h"
+#include "header/Inventory.h"
+#include "header/Admin.h"
 
 using namespace std;
 
@@ -67,13 +68,22 @@ void Admin::displayFeedback() {
 }
 
 /*-----Get inventory content-----*/
-const Inventory* Admin::getProductById(int id) const {
-    for (const auto& item : inventory) {
+// const Inventory* Admin::getProductById(int id) const {
+//     for (const auto& item : inventory) {
+//         if (item.getID() == id) {
+//             return &item; 
+//         }
+//     }
+//     return nullptr; // no item found
+// }
+
+std::optional<Inventory> Admin::getProductById(int id) const {
+    for (const Inventory& item: inventory) {
         if (item.getID() == id) {
-            return &item; 
+            return item;  // Return the item wrapped in std::optional
         }
     }
-    return nullptr; // no item found
+    return std::nullopt;  // Return std::nullopt if no item is found
 }
 
  bool Admin::isProductInInventory(int id) const {

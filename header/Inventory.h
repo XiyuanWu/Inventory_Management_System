@@ -1,38 +1,45 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+#include <string>
+#include <vector>
+
+using namespace std;
 
 class Inventory {
 
   private:
-    int setID(int newID)                    { id = newID;             }
-    string setName(int newName)             { name = newName;         }
-    int setQuantity(int newQuantity)        { quantity = newQuantity; }
-    double setPrice(int newPrice)           { price = newPrice;       }
-    string setCategory(string newCategory)  { category = newCategory; }
-    bool setStatus(bool newStatus)          { status = newStatus;     }
+    void setID(int newID)                       { _id = newID;             }
+    void setName(string newName)                { _name = newName;         }
+    void setQuantity(int newQuantity)           { _quantity = newQuantity; }
+    void setPrice(double newPrice)              { _price = newPrice;       }
+    void setCategory(const string& newCategory) { _category = newCategory; }
+    void setIsStock(bool newIsStock)            { _isStock = newIsStock;     }
 
 
   public:
-    // Inventory() : isValid_(false);
-    Inventory(int id, string name, int quantity, double price, string category, bool status):
-              id(id), name(name), quantity(quantity), price(price), category(category), status(status), isValid_(true) {}
+    Inventory(): _id(0), _name(""), _quantity(0), _price(0.0), _category(""), _isStock(false) {}
+    Inventory(int id, string name, int quantity, double price, string category, bool isStock):
+              _id(id), _name(name), _quantity(quantity), _price(price), _category(category), _isStock(isStock)/*, isValid_(true)*/ {}
 
-    int getID() const           { return id;       }
-    string getName() const      { return name;     }
-    int getQuantity() const     { return quantity; }
-    double getPrice() const     { return price;    }
-    string getCategory() const  { return category; }
-    bool getStatus() const      { return status;   }
+    int getID() const           { return _id;       }
+    string getName() const      { return _name;     }
+    int getQuantity() const     { return _quantity; }
+    double getPrice() const     { return _price;    }
+    string getCategory() const  { return _category; }
+    bool getisStock() const     { return _isStock;   }
 
   private:
-    int id;
-    string name;
-    int quantity;
-    double price;
-    string category;
-    bool status;
-    bool isValid_;
+    int _id;
+    string _name;
+    int _quantity;
+    double _price;
+    string _category;
+    bool _isStock;
+    // bool isValid_;
   
 };
 

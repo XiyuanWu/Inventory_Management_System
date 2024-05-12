@@ -1,6 +1,16 @@
 #ifndef ADMIN_H
 #define ADMIN_H
 
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <optional>
+#include "../header/Inventory.h"
+
+using namespace std;
+
 class Admin {
 
   private:
@@ -30,7 +40,8 @@ class Admin {
 
     // Get inventory content
     const vector<Inventory>& getInventory() const { return inventory; }
-    const Inventory* getProductById(int id) const;
+    // const Inventory* getProductById(int id) const;
+    std::optional<Inventory> getProductById(int id) const;
     bool isProductInInventory(int id) const;
 
   

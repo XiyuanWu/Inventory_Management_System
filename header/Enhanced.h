@@ -1,6 +1,7 @@
 #ifndef ENHANCED_H
 #define ENHANCED_H
 
+using namespace std;
 
 class Enhanced {
 

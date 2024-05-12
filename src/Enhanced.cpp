@@ -4,19 +4,22 @@
 #include <string>
 #include <vector>
 
-#include "../header/Enhanced.h"
+#include ".header/Enhanced.h"
+#include "header/Customer.h"
+#include "header/Inventory.h"
+#include "header/Admin.h"
 
 using namespace std;
 
 
-void searchFunctionality() {
+void Enhanced::searchFunctionality() {
 
 }
 
-void clearSession() {
+void Enhanced::clearSession() {
 
 }
 
-void reviewSession() {
+void Enhanced::reviewSession() {
 
 }

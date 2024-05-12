@@ -5,17 +5,17 @@
 #include <vector>
 #include <stdexcept>
 
-#include "../header/Admin.h"
-#include "../header/Customer.h"
-#include "../header/Enhanced.h"
-#include "../header/Inventory.h"
+#include "header/Admin.h"
+#include "header/Customer.h"
+#include "header/Enhanced.h"
+#include "header/Inventory.h"
 
 using namespace std;
 
 
-void primaryMunu() const;
-void adminMunu() const;
-void customerMunu() const;
+void primaryMunu();
+void adminMunu();
+void customerMunu();
 
 
 
@@ -23,11 +23,11 @@ int main() {
 
     Inventory inventory;
     Admin admin;
-    Customer customer;
-    Enhanced enhanced;
+    Customer customer(admin);
+    // Enhanced enhanced;
 
     char option;
-    double choice;
+    int choice = 0;
 
     primaryMunu();
 
@@ -36,40 +36,40 @@ int main() {
         if (option == 'a' || option == 'A') {
             adminMunu();
 
-            if (choice == 1.1) {
+            if (choice == 1) {
 
             }
-            else if (choice == 1.2) {
+            else if (choice == 2) {
 
             }
-            else if (choice == 1.3) {
+            else if (choice == 3) {
 
             }
-            else if (choice == 1.4) {
+            else if (choice == 4) {
 
             }
-            else if (choice == 2.1) {
+            else if (choice == 5) {
 
             }
-            else if (choice == 2.2) {
+            else if (choice == 6) {
 
             }
-            else if (choice == 2.3) {
+            else if (choice == 7) {
 
             }
-            else if (choice == 3.1) {
+            else if (choice == 8) {
 
             }
-            else if (choice == 3.2) {
+            else if (choice == 9) {
 
             }
-            else if (choice == 4.1) {
+            else if (choice == 10) {
 
             }
-            else if (choice == 4.2) {
+            else if (choice == 11) {
 
             }
-            else if (choice == 4.3) {
+            else if (choice == 12) {
 
             }
             else {
@@ -108,7 +108,7 @@ int main() {
 
 /*---------Main Munu---------*/
 
-void primaryMunu() const {
+void primaryMunu() {
 
     cout << "Welcome to Inventory Management System\n"
          << "Are you a Admin(a) or Customer(c)?\n"
@@ -118,37 +118,37 @@ void primaryMunu() const {
 
 /*---------Admin Munu---------*/
 
-void adminMunu() const {
+void adminMunu() {
 
     cout << "Welcome! What would you like to do today?\n"
          << "P1 Inventory Management\n"
-         << "1.1 Add Products\n"
-         << "1.2 Update Products\n"
-         << "1.3 Remove Products\n"
-         << "1.4 View Inventory\n" 
+         << "1. Add Products\n"
+         << "2. Update Products\n"
+         << "3. Remove Products\n"
+         << "4. View Inventory\n" 
          << endl
          << "P2 Order Management\n"
-         << "2.1 View All Orders\n"
-         << "2.2 Update Orders\n"
-         << "2.3 Record Sales\n"
+         << "5. View All Orders\n"
+         << "6. Update Orders\n"
+         << "7. Record Sales\n"
          << endl
          << "P3 Reporting\n"
-         << "3.1 Sales Reports\n"
-         << "3.2 Inventory Reports\n"
+         << "8. Sales Reports\n"
+         << "9. Inventory Reports\n"
          << endl
          << "P4 System Management\n"
-         << "4.1 Backup and Restore\n"
-         << "4.2 System Settings\n"
-         << "4.3 Display Feedback\n"
+         << "10. Backup and Restore\n"
+         << "11. System Settings\n"
+         << "12. Display Feedback\n"
          << endl
-         << "Please enter corresponding number for your choice(eg '1.1', '3.1')." << endl;
+         << "Please enter corresponding number for your choice(eg '2', '9')." << endl;
 
 }
 
 
 /*---------Customer Munu---------*/
 
-void customerMunu() const {
+void customerMunu() {
 
     cout << "Welcome! What would you like to do today?\n"
          << "1. Shopping\n"

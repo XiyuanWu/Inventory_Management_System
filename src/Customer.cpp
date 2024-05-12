@@ -1,12 +1,6 @@
-#include <iostream>
-#include <algorithm>
-#include <cmath>
-#include <string>
-#include <vector>
-
-#include "../header/Customer.h"
-#include "../header/Inventory.h"
-#include "../header/Admin.h"
+#include "header/Customer.h"
+#include "header/Inventory.h"
+#include "header/Admin.h"
 
 using namespace std;
 

@@ -1,11 +1,11 @@
-#include "header/Customer.h"
-#include "header/Inventory.h"
-#include "header/Admin.h"
+#include "./header/Customer.h"
+#include "./header/Inventory.h"
+#include "./header/Admin.h"
 
 using namespace std;
 
 
-/*-----Shopping-----*/
+/*-----Shopping helper-----*/
 void Customer::browseProducts() const {
 
     Admin admin;
@@ -25,102 +25,7 @@ void Customer::browseProducts() const {
     }
 }
 
-
-void Customer::purchaseProduct() {
-
-    // Admin admin;
-    std::string input;
-
-    cout << "Please choose product you want to buy. Only enter ID for the product you want to buy.\n"
-         << "If you are done with add item. press 'q' for display shopping cart." << endl;
-    
-    while (cin >> input) {
-        if (input == "q") {
-            displayShoppingCart();
-            break;
-        }
-        
-        // int id = stoi(input); // convert string to int
-        int id = 0;
-        try {
-            id = stoi(input); // convert string to int
-        } catch (const invalid_argument& e) {
-            cout << "Invalid ID entered. Please enter a numeric ID." << endl;
-            continue; // Skip the rest of the loop iteration and prompt again
-        } catch (const out_of_range& e) {
-            cout << "ID is out of range. Please enter a smaller ID." << endl;
-            continue; // Skip the rest of the loop iteration and prompt again
-        }
-
-
-        if (admin.isProductInInventory(id)) {
-            const Inventory product = admin.getProductById(id);  // get product info based on user entered id
-            if (product) {
-                shopping_cart.push_back(*product);
-            }
-            else {
-                cout << "Product not found. Please try again." << endl;
-            }
-        }
-        else {
-            cout << "Product no longer available or invalid input.\n";
-        }
-    }
-
-    findTotalPrice();  // After added item and display, calculate total price
-    confirmOrder(); // proceed with confirm order
-
-}
-
-void Customer::confirmOrder() {
-
-    int number;
-    char option;
-
-    // And ask user if want to confirm order.
-    cout << "Confirm order? (Y/N)" << endl;
-
-    while (cin >> option) {
-
-        if (option == 'Y' || option == 'y') { // order confirm, order recorded.
-            order.push_back(shopping_cart); // to be done, also need a order number
-        }
-        else if (option == 'N' || option == 'n') { // if user not confirm order, display shopping cart again and ask if user want to add or remove some item.
-            displayShoppingCart();
-            cout << "Do you want to add(a) or remove(r) item?" << endl;
-
-            if (option == 'A' || option == 'a') { // add more item
-                browseProducts();
-                // user add more item
-                purchaseProduct();
-            }
-            else if (option == 'R' || option == 'r') { // remove some item
-                displayShoppingCart(); // display shopping cart to user
-                // ask user which item want to remove from shopping cart
-                cout << "which product you want to remove? Only enter product # not ID." << endl;
-                cin >> number;
-                if (/*number found in shopping cart*/) {
-                    // remove it: to be complete
-                    displayShoppingCart();
-                    cout << "Want remove more?" << endl;
-                    // to be complete
-                }
-                else {
-                    cout << "The number you enter are invalid or don't exists, try again." << endl;
-                }
-            }
-            else {
-                cout << "Invalid input. Please try again." << endl;
-            }
-        }
-        else {
-            cout << "Invalid input. Please enter Y/N." << endl;
-        }
-    }
-}
-
-
-void Customer::displayShoppingCart() {
+void Customer::displayShoppingCart() const {
 
     int count = 1;
 
@@ -141,23 +46,6 @@ void Customer::displayShoppingCart() {
 
 }
 
-/*-----Order Inquiry-----*/
-void Customer::viewOrder() const {
-
-    cout << "| ID | Product Name | Quantity | Price | Category |" << endl;
-    cout << "| -- | ------------ | -------- | ----- | -------- |" << endl;
-
-    for (const auto& item: shopping_cart) {
-        cout << " | " << item.getID()
-             << " | " << item.getName()
-             << " | " << item.getQuantity()
-             << " | " << item.getPrice()
-             << " | " << item.getCategory()
-             << " | " << endl;
-    }
-}
-
-
 double Customer::findTotalPrice() {
 
     char option;
@@ -170,6 +58,161 @@ double Customer::findTotalPrice() {
     cout << "Your total price is " << totalPrice << endl;
 
     return totalPrice;
+}
+
+void Customer::clearShoppingCart() {
+    shopping_cart.clear();
+}
+
+
+void Customer::removeItemFromCart() {
+	
+    int indexToRemove;
+    cout << "which product you want to remove? Only enter product # not ID." << endl;
+    cin >> number;
+
+    if (indexToRemove > 0 && indexToRemove <= shopping_cart.size()) {
+        shopping_cart.erase(shopping_cart.begin() + (indexToRemove-1));
+        cout << "Item removed successfully." << endl;
+    }
+    else {
+        cout << "Invalid index. Please enter a valid #." << endl;
+    }
+}
+
+
+
+/*-----Shopping-----*/
+
+void Customer::purchaseProduct() {
+
+    Admin admin;
+    string input;
+
+    cout << "Please choose product you want to buy. Only enter ID for the product you want to buy.\n"
+         << "If you are done with add item. you may press 'q' for display shopping cart at any time." << endl;
+    
+    while (cin >> input) {
+        if (input == "q" || input == "Q") {
+            displayShoppingCart();
+            break;
+        }
+        
+        int id = 0;
+        try {
+            id = stoi(input); // convert string to int
+        } catch (const invalid_argument& e) {
+            cout << "Invalid ID entered. Please enter a numeric ID." << endl;
+            continue; // Skip the rest of the loop iteration and prompt again
+        } 
+
+        if (admin.isProductInInventory(id)) {  // check if product is in inventory
+            auto product = admin.getProductById(id);  // get product info based on user entered id
+            if (product) {
+                shopping_cart.push_back(*product);
+            }
+            else {
+                cout << "Product not found. Please try again. " << endl;
+                continue;
+            }
+        }
+        else {
+            cout << "Product no longer available or invalid input." << endl;
+            continue;
+        }
+    }
+
+    cout << "Your total price is " << findTotalPrice() << endl; 
+    confirmOrder(); // ask customer want to confirm order
+
+}
+
+
+void Customer::confirmOrder() {
+
+    char option;
+
+    // And ask user if want to confirm order.
+    cout << "Confirm order? (Y/N)" << endl;
+
+    while (cin >> option) {
+
+        if (option == 'Y' || option == 'y') { // order confirm, order recorded.
+            finalizeOrder();  // This method now handles adding to order history and clearing the cart.
+            break;
+        }
+        else if (option == 'N' || option == 'n') { // if user not confirm order, display shopping cart again and ask if user want to add or remove some item.
+            displayShoppingCart();
+            cout << "Do you want to add(a) or remove(r) item?" << endl;
+            cin >> option;
+
+            if (option == 'A' || option == 'a') { // add more item
+                browseProducts();
+                purchaseProduct(); // user add more item
+                cout << "Now press Y to confirmed order." << endl;
+                continue;
+            }
+            else if (option == 'R' || option == 'r') { // remove some item
+                removeItemFromCart();
+                cout << "Now press Y to confirmed order." << endl;
+                continue;
+            }
+            else {
+                cout << "Invalid input. Please try again: " << endl;
+                continue;
+            }
+        }
+        else {
+            cout << "Invalid input. Please enter Y/N: " << endl;
+            continue;
+        }
+    }
+
+}
+
+void Customer::finalizeOrder() {
+
+    if (!shopping_cart.empty()) {
+        orderHistory.push_back(shopping_cart);
+        cout << "Order has complete." << endl;
+
+        // after order is done, clear shipping cart
+        shopping_cart.clear();
+    }
+    else {
+        cout << "No items in the cart to finalize." << endl;
+    }
+}
+
+
+
+/*-----Order Inquiry-----*/
+void Customer::viewOrder() const {
+
+    if (orderHistory.empty()) {
+        cout << "No orders to display." << endl;
+        return;
+    }
+
+    cout << "Order History:" << endl;
+
+    int orderNumber = 1;
+    for (const auto& order: orderHistory) {
+        cout << "Order #" << orderNumber++ << ":" << endl;
+        cout << "| ID | Product Name | Quantity | Price | Category |" << endl;
+        cout << "| -- | ------------ | -------- | ----- | -------- |" << endl;
+
+        for (const auto& item : order) {
+            cout << "| " << item.getID()
+                 << " | " << item.getName()
+                 << " | " << item.getQuantity()
+                 << " | $" << item.getPrice()
+                 << " | " << item.getCategory()
+                 << " |" << endl;
+        }
+        cout << endl; // Add a space between ordersy
+    }
+
 }
 
 

@@ -5,10 +5,10 @@
 #include <vector>
 #include <stdexcept>
 
-#include "header/Admin.h"
-#include "header/Customer.h"
-#include "header/Enhanced.h"
-#include "header/Inventory.h"
+#include "./header/Admin.h"
+#include "./header/Customer.h"
+#include "./header/Enhanced.h"
+#include "./header/Inventory.h"
 
 using namespace std;
 
@@ -87,10 +87,10 @@ int main() {
                 customer.purchaseProduct();
             }
             else if (choice == 2) {
-
+                customer.viewOrder();
             }
             else if (choice == 3) {
-
+                customer.provideFeedback();
             }
             else {
                 throw runtime_error("Invalid input. Please enter a valid number.");
@@ -143,6 +143,7 @@ void adminMunu() {
          << endl
          << "Please enter corresponding number for your choice(eg '2', '9')." << endl;
 
+    cout << endl;
 }
 
 
@@ -155,5 +156,7 @@ void customerMunu() {
          << "2. View Orders\n"
          << "3. Provide Feedback\n"
          << "Please enter corresponding number for your choice(eg '1')." << endl;
+
+    cout << endl;
 
 }

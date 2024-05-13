@@ -41,7 +41,7 @@ class Admin {
     // Get inventory content
     const vector<Inventory>& getInventory() const { return inventory; }
     // const Inventory* getProductById(int id) const;
-    std::optional<Inventory> getProductById(int id) const;
+    optional<Inventory> getProductById(int id) const;
     bool isProductInInventory(int id) const;
 
   

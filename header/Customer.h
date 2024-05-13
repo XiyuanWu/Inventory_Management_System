@@ -16,25 +16,31 @@ class Customer {
     const Admin& _admin;
     vector<string> feedback;
     vector<Inventory> shopping_cart;
-    vector<Inventory> order;
+    vector<vector<Inventory>> orderHistory;
 
   public:
-    // Customer(): 
     Customer(const Admin& admin): _admin(admin) {}
 
     // Shopping
-    void browseProducts() const;
     void purchaseProduct();
-    void displayShoppingCart();
+    void removeItemFromCart();
     void confirmOrder();
+    void finalizeOrder();
 
-    // Order Inquiry
-    void viewOrder() const;
+    // Shopping helper
+    void displayShoppingCart() const;
+    void browseProducts() const;
     double findTotalPrice();
+    void clearShoppingCart();
+
+    // View order
+    void viewOrder() const;
 
     // Feedback System
     void provideFeedback();
 
+    // Get order history
+    const vector<vector<Inventory>>& getIOrderHistory() const { return orderHistory; }
   
 };
 

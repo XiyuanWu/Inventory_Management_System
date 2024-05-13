@@ -77,12 +77,12 @@ void Admin::displayFeedback() {
 //     return nullptr; // no item found
 // }
 
-std::optional<Inventory> Admin::getProductById(int id) const {
+optional<Inventory> Admin::getProductById(int id) const {
+    
     for (const Inventory& item: inventory) {
-        if (item.getID() == id) {
+        if (item.getID() == id) 
             return item;  // Return the item wrapped in std::optional
         }
-    }
     return std::nullopt;  // Return std::nullopt if no item is found
 }
 

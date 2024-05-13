@@ -3,12 +3,15 @@
 
 using namespace std;
 
+// This class both customer and admin can use
+
 class Enhanced {
 
   private:
 
 
   public:
+
     void searchFunctionality();
     void clearSession();
     void reviewSession();

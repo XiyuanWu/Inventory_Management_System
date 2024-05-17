@@ -1,6 +1,6 @@
-#include "./header/Customer.h"
-#include "./header/Inventory.h"
-#include "./header/Admin.h"
+#include "../header/Customer.h"
+// #include "../header/Inventory.h"
+// #include "../header/Admin.h"
 
 using namespace std;
 
@@ -20,7 +20,7 @@ void Customer::browseProducts() const {
              << " | " << item.getQuantity()
              << " | " << item.getPrice()
              << " | " << item.getCategory();
-        (cout << " | " << item.getStatus()) ? "In Stock" : "Out of Stock";
+        (cout << " | " << item.getisStock()) ? "In Stock" : "Out of Stock";
         cout << " | " << endl;
     }
 }
@@ -40,7 +40,7 @@ void Customer::displayShoppingCart() const {
              << " | " << item.getQuantity()
              << " | " << item.getPrice()
              << " | " << item.getCategory()
-             << " | " << item.getStatus() ? "In Stock" : "Out of Stock"
+             << " | " << item.getisStock() ? "In Stock" : "Out of Stock"
              << " | " << endl;
     }
 
@@ -69,7 +69,7 @@ void Customer::removeItemFromCart() {
 	
     int indexToRemove;
     cout << "which product you want to remove? Only enter product # not ID." << endl;
-    cin >> number;
+    cin >> indexToRemove;
 
     if (indexToRemove > 0 && indexToRemove <= shopping_cart.size()) {
         shopping_cart.erase(shopping_cart.begin() + (indexToRemove-1));
@@ -83,7 +83,6 @@ void Customer::removeItemFromCart() {
 
 
 /*-----Shopping-----*/
-
 void Customer::purchaseProduct() {
 
     Admin admin;

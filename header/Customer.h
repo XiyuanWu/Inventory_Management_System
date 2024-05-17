@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include "../header/Inventory.h"
+#include "../header/Admin.h"
 
 using namespace std;
 

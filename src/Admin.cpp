@@ -5,9 +5,9 @@
 #include <vector>
 #include <optional>
 
-#include "header/Customer.h"
-#include "header/Inventory.h"
-#include "header/Admin.h"
+#include "../header/Customer.h"
+#include "../header/Inventory.h"
+#include "../header/Admin.h"
 
 using namespace std;
 

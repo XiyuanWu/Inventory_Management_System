@@ -25,6 +25,7 @@ class Inventory {
     Inventory(int id, string name, int quantity, double price, string category, bool isStock):
               _id(id), _name(name), _quantity(quantity), _price(price), _category(category), _isStock(isStock) {}
     ~Inventory() {}
+    
     int getID() const           { return _id;       }
     string getName() const      { return _name;     }
     int getQuantity() const     { return _quantity; }

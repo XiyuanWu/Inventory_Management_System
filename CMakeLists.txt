@@ -1,0 +1,24 @@
+cmake_minimum_required(VERSION 3.10)
+project(InventoryManagementSystem)
+
+set(CMAKE_CXX_STANDARD 17)
+
+# Add the source files
+add_executable(Inventory 
+        test.cpp 
+        ../src/Admin.cpp 
+        ../drc/Customer.cpp)
+        # Inventory.cpp)
+
+# Add Google Test
+add_subdirectory(googletest)
+include_directories(${CMAKE_SOURCE_DIR}/googletest/googletest/include)
+
+# Link the test executable with Google Test libraries
+add_executable(runTests 
+        test.cpp 
+        ../src/Admin.cpp 
+        ../drc/Customer.cpp)
+        # Inventory.cpp)
+
+target_link_libraries(runTests gtest gtest_main)

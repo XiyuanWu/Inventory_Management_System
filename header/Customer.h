@@ -6,6 +6,7 @@
 #include <cmath>
 #include <string>
 #include <vector>
+#include <cstdlib>
 #include "../header/Inventory.h"
 #include "../header/Admin.h"
 
@@ -30,7 +31,7 @@ class Customer {
 
     // Shopping helper
     void displayShoppingCart() const;
-    void browseProducts() const;
+    void browseProducts();
     double findTotalPrice();
     void clearShoppingCart();
 

@@ -29,12 +29,16 @@ int main() {
     char option;
     int choice = 0;
 
-    primaryMunu();
 
-    while (cin >> option) {
+    while (true) {
+
+        cout << endl;
+        primaryMunu();
+        cin >> option;
 
         if (option == 'a' || option == 'A') {
             adminMunu();
+            cin >> choice;
 
             if (choice == 1) {
 
@@ -73,24 +77,25 @@ int main() {
 
             }
             else {
-                throw runtime_error("Invalid input. Please enter a valid number");
+                throw runtime_error("Invalid input. Please enter a valid number.");
             }
         }
 
         else if (option == 'c' || option == 'C') {
             customerMunu();
-
+            cin >> choice;
+            
             if (choice == 1) {
-                // Customer choose shopping, we will display all inventory first.
                 customer.browseProducts();
-                // After display, proceed with purchase product.
-                customer.purchaseProduct();
+                continue;
             }
             else if (choice == 2) {
                 customer.viewOrder();
+                continue;
             }
             else if (choice == 3) {
                 customer.provideFeedback();
+                continue;
             }
             else {
                 throw runtime_error("Invalid input. Please enter a valid number.");
@@ -111,8 +116,7 @@ int main() {
 void primaryMunu() {
 
     cout << "Welcome to Inventory Management System\n"
-         << "Are you a Admin(a) or Customer(c)?\n"
-         << "Please enter your choice to continue." << endl; 
+         << "Are you a Admin(a) or Customer(c)? " << endl;
 
 }
 
@@ -120,7 +124,7 @@ void primaryMunu() {
 
 void adminMunu() {
 
-    cout << "Welcome! What would you like to do today?\n"
+    cout << "What would you like to do today?\n"
          << "P1 Inventory Management\n"
          << "1. Add Products\n"
          << "2. Update Products\n"
@@ -141,7 +145,7 @@ void adminMunu() {
          << "11. System Settings\n"
          << "12. Display Feedback\n"
          << endl
-         << "Please enter corresponding number for your choice(eg '2', '9')." << endl;
+         << "Please enter corresponding number for your choice(eg '2', '9'): " << endl;
 
     cout << endl;
 }
@@ -151,11 +155,11 @@ void adminMunu() {
 
 void customerMunu() {
 
-    cout << "Welcome! What would you like to do today?\n"
+    cout << "What would you like to do today?\n"
          << "1. Shopping\n"
          << "2. View Orders\n"
          << "3. Provide Feedback\n"
-         << "Please enter corresponding number for your choice(eg '1')." << endl;
+         << "Please enter corresponding number for your choice(eg '1'): " << endl;
 
     cout << endl;
 

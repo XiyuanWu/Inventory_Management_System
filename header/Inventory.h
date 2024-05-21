@@ -22,7 +22,7 @@ class Inventory {
 
   public:
     Inventory(): _id(0), _name(""), _quantity(0), _price(0.0), _category(""), _isStock(false) {}
-    Inventory(int id, string name, int quantity, double price, string category, bool isStock):
+    Inventory(int id, string& name, int quantity, double price, string& category, bool isStock):
               _id(id), _name(name), _quantity(quantity), _price(price), _category(category), _isStock(isStock) {}
     ~Inventory() {}
     

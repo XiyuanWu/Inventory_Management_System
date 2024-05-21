@@ -6,10 +6,15 @@ using namespace std;
 
 
 /*-----Shopping helper-----*/
-void Customer::browseProducts() const {
+void Customer::browseProducts() {
 
     Admin admin;
     const auto& inventory = admin.getInventory();
+
+    if (inventory.empty()) {
+        cout << "Nothing avaiable at this time." << endl;
+        return;
+    }
 
     cout << "| ID | Product Name | Quantity | Price | Category | Status |" << endl;
     cout << "| -- | ------------ | -------- | ----- | -------- | ------ |" << endl;
@@ -23,9 +28,17 @@ void Customer::browseProducts() const {
         (cout << " | " << item.getisStock()) ? "In Stock" : "Out of Stock";
         cout << " | " << endl;
     }
+
+    // After display all avaiable, guide customer add product to shopping cart
+    purchaseProduct();
 }
 
 void Customer::displayShoppingCart() const {
+
+    if (shopping_cart.empty()) {
+        cout << "Nothing avaiable at this time." << endl;
+        return;
+    }
 
     int count = 1;
 
@@ -39,9 +52,9 @@ void Customer::displayShoppingCart() const {
              << " | " << item.getName()
              << " | " << item.getQuantity()
              << " | " << item.getPrice()
-             << " | " << item.getCategory()
-             << " | " << item.getisStock() ? "In Stock" : "Out of Stock"
-             << " | " << endl;
+             << " | " << item.getCategory();
+        (cout << " | " << item.getisStock()) ? "In Stock" : "Out of Stock";
+        cout << " | " << endl;
     }
 
 }
@@ -50,6 +63,11 @@ double Customer::findTotalPrice() {
 
     char option;
     double totalPrice = 0;
+
+    if (shopping_cart.empty()) {
+        cout << "Shoppping cart is empty." << endl;
+        return 1;
+    }
 
     for (const auto&item: shopping_cart) {
         totalPrice += item.getQuantity() * item.getPrice();
@@ -66,17 +84,40 @@ void Customer::clearShoppingCart() {
 
 
 void Customer::removeItemFromCart() {
-	
-    int indexToRemove;
-    cout << "which product you want to remove? Only enter product # not ID." << endl;
-    cin >> indexToRemove;
 
-    if (indexToRemove > 0 && indexToRemove <= shopping_cart.size()) {
-        shopping_cart.erase(shopping_cart.begin() + (indexToRemove-1));
-        cout << "Item removed successfully." << endl;
+    if (shopping_cart.empty()) {
+        cout << "Shopping cart is empty, nothing need to remove." << endl;
+        return;
     }
-    else {
-        cout << "Invalid index. Please enter a valid #." << endl;
+	
+    string input;
+    int indexToRemove;
+
+    cout << "which product you want to remove? Only enter product # not ID." << endl;
+    cout << "Press 'q' if you are done for removal." << endl;
+
+    while (true) {
+        cin >> input;
+
+        if (input == "q") {
+            cout << "Done for removal." << endl;
+            break;
+        }
+
+        // Convert string to int
+        indexToRemove = atoi(input.c_str());
+
+        if (indexToRemove > 0 && indexToRemove <= shopping_cart.size()) {
+            shopping_cart.erase(shopping_cart.begin() + (indexToRemove - 1));
+            cout << "Item removed successfully." << endl;
+            cout << "Enter enter # you want to remove or press 'q' for done: " << endl;
+            continue;
+        }
+
+        else {
+            cout << "Invalid index. Please enter a valid #: " << endl;
+            continue;
+        }
     }
 }
 
@@ -101,7 +142,7 @@ void Customer::purchaseProduct() {
         try {
             id = stoi(input); // convert string to int
         } catch (const invalid_argument& e) {
-            cout << "Invalid ID entered. Please enter a numeric ID." << endl;
+            cout << "Invalid ID entered. Please enter a numeric ID: " << endl;
             continue; // Skip the rest of the loop iteration and prompt again
         } 
 
@@ -111,12 +152,12 @@ void Customer::purchaseProduct() {
                 shopping_cart.push_back(*product);
             }
             else {
-                cout << "Product not found. Please try again. " << endl;
+                cout << "Product not found. Please try again: " << endl;
                 continue;
             }
         }
         else {
-            cout << "Product no longer available or invalid input." << endl;
+            cout << "Product no longer available or invalid input, try again: " << endl;
             continue;
         }
     }
@@ -147,7 +188,6 @@ void Customer::confirmOrder() {
 
             if (option == 'A' || option == 'a') { // add more item
                 browseProducts();
-                purchaseProduct(); // user add more item
                 cout << "Now press Y to confirmed order." << endl;
                 continue;
             }
@@ -221,7 +261,9 @@ void Customer::provideFeedback() {
     string userFeedback;
 
     cout << "Please provide your feedback here: " << endl;
+    cin.ignore();
     getline(cin, userFeedback);
+    cout << "Feedback received!" << endl;
 
     feedback.push_back(userFeedback);
 }

@@ -7,8 +7,8 @@
 
 #include "./header/Admin.h"
 #include "./header/Customer.h"
-#include "./header/Enhanced.h"
 #include "./header/Inventory.h"
+#include "./header/Store.h"
 
 using namespace std;
 
@@ -22,9 +22,9 @@ void customerMunu();
 int main() {
 
     Inventory inventory;
+    Store store;
     Admin admin;
-    Customer customer(admin);
-    // Enhanced enhanced;
+    Customer customer;
 
     char option;
     int choice = 0;

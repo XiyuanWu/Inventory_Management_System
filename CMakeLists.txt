@@ -22,3 +22,5 @@ add_executable(runTests
         # Inventory.cpp)
 
 target_link_libraries(runTests gtest gtest_main)
+
+# g++ -std=c++17 -o Inventory main.cpp ./src/Admin.cpp ./src/Customer.cpp

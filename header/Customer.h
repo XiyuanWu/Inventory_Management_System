@@ -8,20 +8,16 @@
 #include <vector>
 #include <cstdlib>
 #include "../header/Inventory.h"
-#include "../header/Admin.h"
+#include "../header/Store.h"
 
 using namespace std;
 
-class Customer {
+class Customer: public Store {
 
   private:
-    const Admin& _admin;
-    vector<string> feedback;
     vector<Inventory> shopping_cart;
-    vector<vector<Inventory>> orderHistory;
 
   public:
-    Customer(const Admin& admin): _admin(admin) {}
 
     // Shopping
     void purchaseProduct();
@@ -40,9 +36,6 @@ class Customer {
 
     // Feedback System
     void provideFeedback();
-
-    // Get order history
-    const vector<vector<Inventory>>& getIOrderHistory() const { return orderHistory; }
   
 };
 

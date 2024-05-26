@@ -8,41 +8,25 @@
 #include <vector>
 #include <optional>
 #include "../header/Inventory.h"
+#include "../header/Store.h"
 
 using namespace std;
 
-class Admin {
-
-  private:
-    vector<Inventory> inventory;
+class Admin: public Store {
 
   public:
 
     // Inventory Management
     void addProduct(const Inventory&);
-    void updateProduct(int productID, const Inventory&);
+    void updateProduct(int productID, const optional<string>& name = nullopt, const optional<int>& quantity = nullopt,
+                       const optional<double>& price = nullopt, const optional<string>& category = nullopt,
+                       const optional<bool>& isStock = nullopt);
     void removeProduct(int productID);
     void viewInventory() const;
 
-    // Order Management
+    // Other feature
     void viewAllOrders() const;
-    void updateOrder(int orderID);
-    void recordSale(int productID, int quantity);
-
-    // Reporting
-    void salesReport() const;
-    void inventoryReport() const;
-    void backupRestore();
-
-    // System Management
-    void systemSettings();
     void displayFeedback();
-
-    // Get inventory content
-    const vector<Inventory>& getInventory() const { return inventory; }
-    // const Inventory* getProductById(int id) const;
-    optional<Inventory> getProductById(int id) const;
-    bool isProductInInventory(int id) const;
 
   
 };

@@ -26,6 +26,9 @@ class Store {
     bool isProductInInventory(int id) const;
     optional<Inventory> getProductById(int id) const;
 
+    // For test purpose
+    void addProduct(const Inventory& item) { inventory.push_back(item); }
+
 
 };
 

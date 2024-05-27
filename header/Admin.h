@@ -32,6 +32,8 @@ class Admin: public Store {
     void verifyCategory(const string& category) const;
     void verifyIsStock(bool isStock) const;
 
+    // For test purpose
+    void setInventory(vector<Inventory>& inv) { inventory = inv; }
   
 };
 

@@ -37,6 +37,10 @@ class Customer: public Store {
 
     // Feedback System
     void provideFeedback();
+
+    // For Test purpose
+    int getCartSize() { return shopping_cart.size(); }
+    void setInventory(const vector<Inventory>& inv) { inventory = inv; }
   
 };
 

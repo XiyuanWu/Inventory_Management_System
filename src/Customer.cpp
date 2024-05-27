@@ -163,7 +163,6 @@ void Customer::purchaseProduct() {
     }
 
     cout << "Your total price is " << findTotalPrice() << endl; 
-    confirmOrder(); // ask customer want to confirm order
 
 }
 

@@ -3,5 +3,7 @@ build/
 CMakeFiles/
 CMakeCache.txt
 Makefile
-run
+runTests
 cmake_install.cmake
+Inventory
+lib/

@@ -30,6 +30,7 @@ class Customer: public Store {
     void browseProducts();
     double findTotalPrice();
     void clearShoppingCart();
+    bool isInventoryEmpty() const;
 
     // View order
     void viewOrder() const;

@@ -6,16 +6,18 @@ using namespace std;
 
 
 /*-----Shopping helper-----*/
+bool Customer::isInventoryEmpty() const {
+
+    const auto& inventory = getInventory();
+
+    return inventory.empty() ? false : true;
+}
+
 void Customer::browseProducts() {
 
-    Admin admin;
-    const auto& inventory = admin.getInventory();
+    const auto& inventory = getInventory();
 
-    if (inventory.empty()) {
-        cout << "Nothing avaiable at this time." << endl;
-        return;
-    }
-
+    cout << "Product Overview" << endl;
     cout << "| ID | Product Name | Quantity | Price | Category | Status |" << endl;
     cout << "| -- | ------------ | -------- | ----- | -------- | ------ |" << endl;
 
@@ -28,9 +30,6 @@ void Customer::browseProducts() {
         (cout << " | " << item.getisStock()) ? "In Stock" : "Out of Stock";
         cout << " | " << endl;
     }
-
-    // After display all avaiable, guide customer add product to shopping cart
-    purchaseProduct();
 }
 
 void Customer::displayShoppingCart() const {
@@ -72,6 +71,8 @@ double Customer::findTotalPrice() {
     for (const auto&item: shopping_cart) {
         totalPrice += item.getQuantity() * item.getPrice();
     }
+
+    totalPrice += totalPrice * 0.0085;  // add tax
 
     cout << "Your total price is " << totalPrice << endl;
 
@@ -126,7 +127,6 @@ void Customer::removeItemFromCart() {
 /*-----Shopping-----*/
 void Customer::purchaseProduct() {
 
-    Admin admin;
     string input;
 
     cout << "Please choose product you want to buy. Only enter ID for the product you want to buy.\n"
@@ -146,8 +146,8 @@ void Customer::purchaseProduct() {
             continue; // Skip the rest of the loop iteration and prompt again
         } 
 
-        if (admin.isProductInInventory(id)) {  // check if product is in inventory
-            auto product = admin.getProductById(id);  // get product info based on user entered id
+        if (isProductInInventory(id)) {  // check if product is in inventory
+            auto product = getProductById(id);  // get product info based on user entered id
             if (product) {
                 shopping_cart.push_back(*product);
             }
@@ -220,7 +220,7 @@ void Customer::finalizeOrder() {
     }
     else {
         cout << "No items in the cart to finalize." << endl;
-    }
+    } 
 }
 
 

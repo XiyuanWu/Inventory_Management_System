@@ -64,7 +64,10 @@
     "*.tcc": "cpp",
     "deque": "cpp",
     "unordered_map": "cpp",
-    "vector": "cpp"
+    "vector": "cpp",
+    "cmath": "cpp",
+    "array": "cpp",
+    "string_view": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }

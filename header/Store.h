@@ -3,7 +3,9 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include <string>
+#include <optional>
 #include "../header/Inventory.h"
 
 using namespace std;
@@ -16,9 +18,14 @@ class Store {
     vector<string> feedback;
 
   public:
-    const vector<Inventory>& getInventory() const { return inventory; }
-    const vector<vector<Inventory>>& getOrderHistory() const { return orderHistory; }
-    const vector<string>& getFeedback() const { return feedback; }
+    const vector<Inventory>& getInventory() const             { return inventory; }
+    const vector<vector<Inventory>>& getOrderHistory() const  { return orderHistory; }
+    const vector<string>& getFeedback() const                 { return feedback; }
+
+    // Get inventory content
+    bool isProductInInventory(int id) const;
+    optional<Inventory> getProductById(int id) const;
+
 
 };
 

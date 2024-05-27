@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <optional>
+#include <limits>
 #include "../header/Inventory.h"
 #include "../header/Store.h"
 
@@ -17,16 +18,19 @@ class Admin: public Store {
   public:
 
     // Inventory Management
-    void addProduct(const Inventory&);
-    void updateProduct(int productID, const optional<string>& name = nullopt, const optional<int>& quantity = nullopt,
-                       const optional<double>& price = nullopt, const optional<string>& category = nullopt,
-                       const optional<bool>& isStock = nullopt);
-    void removeProduct(int productID);
+    void addProduct();
+    void updateProduct();
+    void removeProduct();
     void viewInventory() const;
 
     // Other feature
     void viewAllOrders() const;
     void displayFeedback();
+
+    // To verify input are valid or not
+    void verifyName(const string& name) const;
+    void verifyCategory(const string& category) const;
+    void verifyIsStock(bool isStock) const;
 
   
 };

@@ -29,7 +29,24 @@ class Store {
     // For test purpose
     void addProduct(const Inventory& item) { inventory.push_back(item); }
 
+    void viewInventory() const {
 
+      if (inventory.empty()) {
+          cout << "No inventory avaiable." << endl;
+          return;
+      }
+
+      for (const auto& item: inventory) {
+          cout << "| " << item.getID()
+              << " | " << item.getName()
+              << " | " << item.getQuantity()
+              << " | " << item.getPrice()
+              << " | " << item.getCategory();
+          (cout << " | " << item.getisStock()) ? "In Stock" : "Out of Stock";
+          cout << " | " << endl;
+      }
+
+}
 };
 
 #endif 

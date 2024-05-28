@@ -58,6 +58,7 @@ void Customer::displayShoppingCart() const {
 
 }
 
+// In this project, assume tax is included in price
 double Customer::findTotalPrice() {
 
     char option;
@@ -71,8 +72,6 @@ double Customer::findTotalPrice() {
     for (const auto&item: shopping_cart) {
         totalPrice += item.getQuantity() * item.getPrice();
     }
-
-    totalPrice += totalPrice * 0.0085;  // add tax
 
     cout << "Your total price is " << totalPrice << endl;
 
@@ -125,46 +124,94 @@ void Customer::removeItemFromCart() {
 
 
 /*-----Shopping-----*/
+// void Customer::purchaseProduct() {
+
+//     string input;
+
+//     cout << "Please choose product you want to buy. Only enter ID for the product you want to buy.\n"
+//          << "If you are done with add item. you may press 'q' for display shopping cart at any time." << endl;
+    
+//     while (cin >> input) {
+//         if (input == "q" || input == "Q") {
+//             displayShoppingCart();
+//             break;
+//         }
+        
+//         int id = 0;
+//         try {
+//             id = stoi(input); // convert string to int
+//             cout << "(test)ID:" << id << endl;
+//         } catch (const invalid_argument& e) {
+//             cout << "Invalid ID entered. Please enter a numeric ID: " << endl;
+//             continue; // Skip the rest of the loop iteration and prompt again
+//         } 
+
+//         cout << "(test)Checking if product is in inventory..." << endl;
+//         if (isProductInInventory(id)) {  // check if product is in inventory
+//             cout << "(test)Product is in inventory." << endl;
+//             auto product = getProductById(id);  // get product info based on user entered id
+//             if (product) {
+//                 shopping_cart.push_back(*product);
+//                 cout << "(test)Product added to cart: " << product->getName() << endl;
+//             }
+//             else {
+//                 cout << "Product not found. Please try again: " << endl;
+//                 continue;
+//             }
+//         }
+//         else {
+//             cout << "(test)Product is NOT in inventory." << endl;
+            
+//             cout << "Product no longer available or invalid input, try again: " << endl;
+//             continue;
+//         }
+//     }
+
+//     cout << "Your total price is " << findTotalPrice() << endl; 
+
+// }
+
 void Customer::purchaseProduct() {
 
     string input;
+    // Store store;
 
-    cout << "Please choose product you want to buy. Only enter ID for the product you want to buy.\n"
-         << "If you are done with add item. you may press 'q' for display shopping cart at any time." << endl;
-    
+    cout << "Please choose product you want to buy. Only enter ID for the product you want to buy.\n";
+    cout << "If you are done with add item. you may press 'q' for display shopping cart at any time.\n";
+
     while (cin >> input) {
         if (input == "q" || input == "Q") {
             displayShoppingCart();
             break;
         }
-        
+
         int id = 0;
         try {
             id = stoi(input); // convert string to int
+            cout << "(test)ID: " << id << endl;
         } catch (const invalid_argument& e) {
             cout << "Invalid ID entered. Please enter a numeric ID: " << endl;
             continue; // Skip the rest of the loop iteration and prompt again
-        } 
+        }
 
-        if (isProductInInventory(id)) {  // check if product is in inventory
-            auto product = getProductById(id);  // get product info based on user entered id
+        cout << "(test)Checking if product is in inventory..." << endl;
+        if (Store::isProductInInventory(id)) { // check if product is in inventory (referencing Store)
+            cout << "(test)Product is in inventory." << endl;
+            auto product = Store::getProductById(id); // get product info based on user entered id (referencing Store)
             if (product) {
                 shopping_cart.push_back(*product);
-            }
-            else {
-                cout << "Product not found. Please try again: " << endl;
+                cout << "(test)Product added to cart: " << product->getName() << endl;
+            } else {
+                cout << "(test)Product not found. Please try again: " << endl;
                 continue;
             }
-        }
-        else {
-            cout << "Product no longer available or invalid input, try again: " << endl;
+        } else {
+            cout << "(test)Product is NOT in inventory." << endl;
             continue;
         }
     }
-
-    cout << "Your total price is " << findTotalPrice() << endl; 
-
 }
+
 
 
 void Customer::confirmOrder() {

@@ -40,7 +40,7 @@ class Customer: public Store {
 
     // For Test purpose
     int getCartSize() { return shopping_cart.size(); }
-    void setInventory(const vector<Inventory>& inv) { inventory = inv; }
+    // void setInventory(const vector<Inventory>& inv) { inventory = inv; }
   
 };
 

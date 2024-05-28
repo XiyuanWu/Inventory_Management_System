@@ -76,7 +76,7 @@ TEST_F(InventoryTest, GetProductById) {
 
 // Test adding items to the shopping cart
 TEST_F(InventoryTest, AddItemToCart) {
-    simulateInput("1\nq\n"); // Assume customer add id 1 to shopping cart
+    simulateInput("1\nq\n"); // Assume customer adds id 1 to shopping cart
     customer.purchaseProduct();
     EXPECT_EQ(customer.getCartSize(), 1);  
 }
@@ -94,7 +94,7 @@ TEST_F(InventoryTest, AddItemToCart) {
 //     EXPECT_EQ(customer.getCartSize(), 0);
 // }
 
-// // Test calculating total price
+// Test calculating total price
 // TEST_F(InventoryTest, CalculateTotalPrice) {
 //     double totalPrice = customer.findTotalPrice();
 //     EXPECT_EQ(totalPrice, 450.0);  // Total price from SetUp items

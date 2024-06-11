@@ -15,8 +15,6 @@ bool Customer::isInventoryEmpty() const {
 
 void Customer::browseProducts() {
 
-    const auto& inventory = getInventory();
-
     cout << "Product Overview" << endl;
     cout << "| ID | Product Name | Quantity | Price | Category | Status |" << endl;
     cout << "| -- | ------------ | -------- | ----- | -------- | ------ |" << endl;
@@ -27,7 +25,7 @@ void Customer::browseProducts() {
              << " | " << item.getQuantity()
              << " | " << item.getPrice()
              << " | " << item.getCategory();
-        (cout << " | " << item.getisStock()) ? "In Stock" : "Out of Stock";
+        (cout << " | " << item.getIsStock()) ? "In Stock" : "Out of Stock";
         cout << " | " << endl;
     }
 }
@@ -52,7 +50,7 @@ void Customer::displayShoppingCart() const {
              << " | " << item.getQuantity()
              << " | " << item.getPrice()
              << " | " << item.getCategory();
-        (cout << " | " << item.getisStock()) ? "In Stock" : "Out of Stock";
+        (cout << " | " << item.getIsStock()) ? "In Stock" : "Out of Stock";
         cout << " | " << endl;
     }
 
@@ -104,16 +102,31 @@ void Customer::removeItemFromCart() {
             break;
         }
 
-        // Convert string to int
-        indexToRemove = atoi(input.c_str());
-
-        if (indexToRemove > 0 && indexToRemove <= shopping_cart.size()) {
-            shopping_cart.erase(shopping_cart.begin() + (indexToRemove - 1));
-            cout << "Item removed successfully." << endl;
-            cout << "Enter enter # you want to remove or press 'q' for done: " << endl;
+        try {
+            indexToRemove = stoi(input);  // Convert string to int
+        } catch (const invalid_argument& e) {
+            cout << "Invalid index. Please enter a valid #: " << endl;
             continue;
         }
 
+        if (indexToRemove > 0 && indexToRemove <= shopping_cart.size()) {
+            // Get the product ID and quantity to be replenished to the inventory
+            auto& product = shopping_cart.at(indexToRemove - 1);
+            int productId = product.getID();
+            int quantityToReplenish = product.getQuantity();
+
+            // Remove the item from the cart
+            shopping_cart.erase(shopping_cart.begin() + (indexToRemove - 1));
+            cout << "Item removed successfully." << endl;
+
+            // Replenish the stock in the inventory
+            if (!replenishStock(productId, quantityToReplenish)) {
+                cout << "Failed to update the inventory." << endl;
+            }
+
+            cout << "Enter # of the product you want to remove or press 'q' for done: " << endl;
+            continue;
+        }
         else {
             cout << "Invalid index. Please enter a valid #: " << endl;
             continue;
@@ -124,61 +137,14 @@ void Customer::removeItemFromCart() {
 
 
 /*-----Shopping-----*/
-// void Customer::purchaseProduct() {
-
-//     string input;
-
-//     cout << "Please choose product you want to buy. Only enter ID for the product you want to buy.\n"
-//          << "If you are done with add item. you may press 'q' for display shopping cart at any time." << endl;
-    
-//     while (cin >> input) {
-//         if (input == "q" || input == "Q") {
-//             displayShoppingCart();
-//             break;
-//         }
-        
-//         int id = 0;
-//         try {
-//             id = stoi(input); // convert string to int
-//             cout << "(test)ID:" << id << endl;
-//         } catch (const invalid_argument& e) {
-//             cout << "Invalid ID entered. Please enter a numeric ID: " << endl;
-//             continue; // Skip the rest of the loop iteration and prompt again
-//         } 
-
-//         cout << "(test)Checking if product is in inventory..." << endl;
-//         if (isProductInInventory(id)) {  // check if product is in inventory
-//             cout << "(test)Product is in inventory." << endl;
-//             auto product = getProductById(id);  // get product info based on user entered id
-//             if (product) {
-//                 shopping_cart.push_back(*product);
-//                 cout << "(test)Product added to cart: " << product->getName() << endl;
-//             }
-//             else {
-//                 cout << "Product not found. Please try again: " << endl;
-//                 continue;
-//             }
-//         }
-//         else {
-//             cout << "(test)Product is NOT in inventory." << endl;
-            
-//             cout << "Product no longer available or invalid input, try again: " << endl;
-//             continue;
-//         }
-//     }
-
-//     cout << "Your total price is " << findTotalPrice() << endl; 
-
-// }
 
 void Customer::purchaseProduct() {
-
+    
     string input;
-    // Store store;
 
-    cout << "Please choose product you want to buy. Only enter ID for the product you want to buy.\n";
-    cout << "If you are done with add item. you may press 'q' for display shopping cart at any time.\n";
-
+    cout << "Please choose the product you want to buy. Only enter the ID for the product." << endl;
+    cout << "If you are done adding items, you may press 'q' at any time to display the shopping cart." << endl;
+ 
     while (cin >> input) {
         if (input == "q" || input == "Q") {
             displayShoppingCart();
@@ -187,30 +153,45 @@ void Customer::purchaseProduct() {
 
         int id = 0;
         try {
-            id = stoi(input); // convert string to int
-            cout << "(test)ID: " << id << endl;
+            id = stoi(input); // Convert string to int
         } catch (const invalid_argument& e) {
             cout << "Invalid ID entered. Please enter a numeric ID: " << endl;
-            continue; // Skip the rest of the loop iteration and prompt again
+            continue; 
         }
 
-        cout << "(test)Checking if product is in inventory..." << endl;
-        if (Store::isProductInInventory(id)) { // check if product is in inventory (referencing Store)
-            cout << "(test)Product is in inventory." << endl;
-            auto product = Store::getProductById(id); // get product info based on user entered id (referencing Store)
-            if (product) {
-                shopping_cart.push_back(*product);
-                cout << "(test)Product added to cart: " << product->getName() << endl;
-            } else {
-                cout << "(test)Product not found. Please try again: " << endl;
-                continue;
-            }
-        } else {
-            cout << "(test)Product is NOT in inventory." << endl;
+        if (!isProductInInventory(id)) {
+            cout << "Product not in inventory, try again." << endl;
             continue;
         }
+
+        auto product = getProductById(id); // Get product info based on user-entered ID
+        if (!product) {
+            cout << "Product not found, try again." << endl;
+            continue;
+        }
+
+        cout << "Enter the quantity you want: ";
+        int quantity;
+        if (!(cin >> quantity) || quantity <= 0) {
+            cout << "Invalid quantity entered. Please enter a positive number." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
+
+        if (!updateProductQuantity(id, quantity)) {
+            cout << "Insufficient stock available, try again." << endl;
+            continue;
+        }
+
+        // Add product and quantity to the shopping cart
+        Product cartItem = *product;
+        cartItem.setQuantity(quantity); // Assuming Product has a quantity field that can be set
+        shopping_cart.push_back(cartItem);
+        cout << "Added " << quantity << " of " << product -> getName() << " to the cart." << endl;
     }
 }
+
 
 
 
@@ -220,11 +201,18 @@ void Customer::confirmOrder() {
 
     // And ask user if want to confirm order.
     cout << "Confirm order? (Y/N)" << endl;
+    cin >> option;
 
-    while (cin >> option) {
+    if (option == 'Y' || option == 'y') { // order confirm, order recorded.
+            finalizeOrder();  // This method now handles adding to order history and clearing the cart.
+            return;
+    }
+
+    while (true) {
+
+        cout << "Do you want to confirmed order(Y), add more product(A), or remove some item(R)?" << endl;
 
         if (option == 'Y' || option == 'y') { // order confirm, order recorded.
-            finalizeOrder();  // This method now handles adding to order history and clearing the cart.
             break;
         }
         else if (option == 'N' || option == 'n') { // if user not confirm order, display shopping cart again and ask if user want to add or remove some item.
@@ -233,13 +221,16 @@ void Customer::confirmOrder() {
             cin >> option;
 
             if (option == 'A' || option == 'a') { // add more item
-                browseProducts();
-                cout << "Now press Y to confirmed order." << endl;
+                browseProducts();         // show cart
+                purchaseProduct();        // make purchase
+                displayShoppingCart();    // show cart after purchase
+                cout << "Product add successfully." << endl;
                 continue;
             }
             else if (option == 'R' || option == 'r') { // remove some item
                 removeItemFromCart();
-                cout << "Now press Y to confirmed order." << endl;
+                displayShoppingCart(); 
+                cout << "Product add successfully." << endl;
                 continue;
             }
             else {
@@ -253,21 +244,37 @@ void Customer::confirmOrder() {
         }
     }
 
+    finalizeOrder();  
+
 }
 
 void Customer::finalizeOrder() {
 
-    if (!shopping_cart.empty()) {
-        orderHistory.push_back(shopping_cart);
-        cout << "Order has complete." << endl;
-
-        // after order is done, clear shipping cart
-        shopping_cart.clear();
+    if (shopping_cart.empty()) {
+        cout << "No items in the cart." << endl;
+        return;
     }
-    else {
-        cout << "No items in the cart to finalize." << endl;
-    } 
+
+    bool inventoryUpdated = true;
+    // Attempt to update inventory for each item in the cart
+    for (const auto& item: shopping_cart) {
+        if (!updateProductQuantity(item.getID(), -item.getQuantity())) {  // Note the negative quantity for reduction
+            inventoryUpdated = false;
+            cout << "Failed to update inventory for product ID " << item.getID() << ". Insufficient stock." << endl;
+            // Optionally, handle partial inventory updates (rollback or confirm partial)
+        }
+    }
+
+    if (inventoryUpdated) {
+        orderHistory.push_back(shopping_cart);
+        cout << "Order has been confirmed and completed." << endl;
+        shopping_cart.clear(); // Clear the cart after confirming the order
+    } else {
+        cout << "Order could not be finalized due to inventory constraints." << endl;
+        // Here you could choose to not clear the cart to allow the customer to adjust their order
+    }
 }
+
 
 
 

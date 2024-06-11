@@ -7,7 +7,7 @@
 #include <limits>
 
 #include "../header/Customer.h"
-#include "../header/Inventory.h"
+#include "../header/Product.h"
 #include "../header/Admin.h"
 
 using namespace std;
@@ -47,7 +47,7 @@ void Admin::addProduct() {
     cin >> isStock;
     verifyIsStock(isStock);
 
-    Inventory newProduct(id, name, quantity, price, category, isStock);
+    Product newProduct(id, name, quantity, price, category, isStock);
     inventory.push_back(newProduct);
     cout << "Product added successfully." << endl;
 }
@@ -132,7 +132,7 @@ void Admin::removeProduct() {
     cin >> productID;
 
     auto it = remove_if(inventory.begin(), inventory.end(),
-                             [productID](const Inventory& product) {
+                             [productID](const Product& product) {
                                  return product.getID() == productID;
                              });
 

@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 #include <cstdlib>
-#include "../header/Inventory.h"
+#include "../header/Product.h"
 #include "../header/Store.h"
 
 using namespace std;
@@ -15,9 +15,13 @@ using namespace std;
 class Customer: public Store {
 
   private:
-    vector<Inventory> shopping_cart;
+    const std::vector<Product>& inventory;
+    vector<Product> shopping_cart;
 
   public:
+
+    Customer(const std::vector<Product>& inventory) : inventory(inventory) {}
+
 
     // Shopping
     void purchaseProduct();

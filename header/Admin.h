@@ -8,7 +8,7 @@
 #include <vector>
 #include <optional>
 #include <limits>
-#include "../header/Inventory.h"
+#include "../header/Product.h"
 #include "../header/Store.h"
 
 using namespace std;
@@ -33,7 +33,7 @@ class Admin: public Store {
     void verifyIsStock(bool isStock) const;
 
     // For test purpose
-    void setInventory(vector<Inventory>& inv) { inventory = inv; }
+    // void setInventory(vector<Product>& inv) { inventory = inv; }
   
 };
 

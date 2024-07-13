@@ -1,11 +1,6 @@
 [
 {
   "directory": "/workspaces/Inventory_Management_System/build",
-  "command": "/usr/bin/g++   -isystem /workspaces/Inventory_Management_System/googletest/googletest/include -isystem /workspaces/Inventory_Management_System/googletest/googletest  -g   -std=gnu++17 -o CMakeFiles/runTests.dir/Test/StoreTest.cpp.o -c /workspaces/Inventory_Management_System/Test/StoreTest.cpp",
-  "file": "/workspaces/Inventory_Management_System/Test/StoreTest.cpp"
-},
-{
-  "directory": "/workspaces/Inventory_Management_System/build",
   "command": "/usr/bin/g++   -isystem /workspaces/Inventory_Management_System/googletest/googletest/include -isystem /workspaces/Inventory_Management_System/googletest/googletest  -g   -std=gnu++17 -o CMakeFiles/runTests.dir/Test/CustomerTest.cpp.o -c /workspaces/Inventory_Management_System/Test/CustomerTest.cpp",
   "file": "/workspaces/Inventory_Management_System/Test/CustomerTest.cpp"
 },

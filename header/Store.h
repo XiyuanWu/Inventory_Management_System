@@ -23,8 +23,8 @@ class Store {
     const vector<string>& getFeedback() const               { return feedback; }
 
     // Get inventory content
-    bool isProductInInventory(int id) const;
-    optional<Product> getProductById(int id) const;
+    virtual bool isProductInInventory(int id) const;
+    virtual optional<Product> getProductById(int id) const;
 
     // Customer Helper
     bool updateProductQuantity(int id, int quantity);

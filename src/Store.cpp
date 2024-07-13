@@ -90,80 +90,101 @@ void Store::addProduct() {
 
 void Store::updateProduct() {
 
-    int productID;
+    int productID = 0;
     viewInventory();
     cout << "Enter the ID of the product you want to update: ";
     cin >> productID;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     if (!isProductInInventory(productID)) {
-        cout << "Product ID not exist. Please try again." << endl;
+        cout << "ID " << productID << " not exist. Please try again." << endl;
         return;
     }
 
     // Find the product
+    Product* productToUpdate = nullptr;
     for (auto& product: inventory) {
-
         if (product.getID() == productID) {
-            int choice;
-            cout << "What would you like to update? (1.name, 2.quantity, 3.price, 5.category, 5.isStock): ";
-            cin >> choice;
-
-            if (choice == 1) {
-                string newName;
-                cout << "Enter new name: ";
-                getline(cin, newName);
-                verifyName(newName);
-                product.setName(newName);
-                continue;
-            } 
-
-            else if (choice == 2) {
-                int newQuantity;
-                cout << "Enter new quantity: ";
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cin >> newQuantity;
-                product.setQuantity(newQuantity);
-                continue;
-            } 
-
-            else if (choice == 3) {
-                double newPrice;
-                cout << "Enter new price: ";
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cin >> newPrice;
-                product.setPrice(newPrice);
-                continue;
-            } 
-
-            else if (choice == 4) {
-                string newCategory;
-                cout << "Enter new category: ";
-                getline(cin, newCategory);
-                verifyCategory(newCategory);
-                product.setCategory(newCategory);
-                continue;
-            } 
-
-            else if (choice == 5) {
-                bool newIsStock;
-                cout << "Is the product in stock (1 for yes, 0 for no): ";
-                cin >> newIsStock;
-                cin.ignore();
-                verifyIsStock(newIsStock);
-                product.setIsStock(newIsStock);
-                continue;
-            } 
-
-            else {
-                cout << "Invalid choice. Try again." << endl;
-                continue;
-            }
-
-            cout << "Product updated successfully." << endl;
-            return;
+            productToUpdate = &product;
+            break;
         }
     }
-    cout << "Product not found." << endl;
+
+    if (!productToUpdate) {
+        cout << "Product not found." << endl;
+        return;
+    }
+
+    int choice = 0;
+    do {
+        cout << "What would you like to update? (1.name, 2.quantity, 3.price, 5.category, 5.isStock, 6. Quit/Done): ";
+        // cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin >> choice;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+
+        if (choice == 1) {
+            string newName;
+            cout << "Enter new name: ";
+            getline(cin, newName);
+            verifyName(newName);
+            productToUpdate -> setName(newName);
+            continue;
+        } 
+
+        else if (choice == 2) {
+            int newQuantity;
+            cout << "Enter new quantity: ";
+            cin >> newQuantity;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            // cout << "(test) new quantity " << newQuantity << endl;
+            productToUpdate -> setQuantity(newQuantity);
+            continue;
+        } 
+
+        else if (choice == 3) {
+            double newPrice;
+            cout << "Enter new price: ";
+            cin >> newPrice;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "(test) new price " << newPrice << endl;
+            productToUpdate -> setPrice(newPrice);
+            continue;
+        } 
+
+        else if (choice == 4) {
+            string newCategory;
+            cout << "Enter new category: ";
+            getline(cin, newCategory);
+            verifyCategory(newCategory);
+            productToUpdate -> setCategory(newCategory);
+            continue;
+        } 
+
+        else if (choice == 5) {
+            bool newIsStock;
+            cout << "Is the product in stock (1 for yes, 0 for no): ";
+            cin >> newIsStock;
+            cin.ignore();
+            verifyIsStock(newIsStock);
+            productToUpdate -> setIsStock(newIsStock);
+            continue;
+        } 
+        else if (choice == 6) {
+            cout << "Done for update." << endl;
+            break;
+        }
+        else {
+            cout << "Invalid choice. Try again." << endl;
+            continue;
+        }
+
+        cout << "Product updated successfully." << endl;
+        return;
+    } while (choice != 6);
+
+
+    // else { cout << "Product not found." << endl; }
 }
 
 void Store::removeProduct() {
@@ -171,6 +192,7 @@ void Store::removeProduct() {
     int productID;
     cout << "Enter the ID of the product you want to remove: ";
     cin >> productID;
+    cin.ignore();
 
     auto it = remove_if(inventory.begin(), inventory.end(),
                              [productID](const Product& product) {

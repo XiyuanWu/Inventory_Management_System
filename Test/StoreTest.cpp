@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 // #include "./header/Admin.h"
-// #include "./header/Customer.h"
+#include "../header/Customer.h"
 #include "../header/Product.h"
 #include "../header/Store.h"
 #include <sstream>
@@ -14,6 +14,7 @@ class StoreTest : public ::testing::Test {
     vector<Product> inventory;
     vector<string> feedback;
     Store store;
+    Customer* customer;
 
     void SetUp() override {
         inventory.push_back(Product(1, string("Apple"), 10, 5.0, string("Fruit"), true));
@@ -29,26 +30,26 @@ class StoreTest : public ::testing::Test {
         // customer = new Customer(store.getInventory());
     }
 
-    // void TearDown() override {
-    //     delete customer;
-    // }
+    void TearDown() override {
+        // Reset the standard input to its original state after each test.
+        resetInput();
+        // delete customer;
+    }
+
 
 
     void simulateInput(const string& input) {
-        static istringstream iss(input);
-        cin.rdbuf(iss.rdbuf());   // Redirect cin to read from iss
+        static istringstream iss;
+        iss.clear(); // Clear any errors
+        iss.str(input); // Set the new input
+        cin.rdbuf(iss.rdbuf()); // Redirect cin to use iss
     }
 
-    // void simulateInput(const string& input) {
-    //     static istringstream iss(input);
-    //     static streambuf* cinbuf = cin.rdbuf();  // preserve old buf
-    //     cin.rdbuf(iss.rdbuf());  // redirect cin to use iss
 
-    //     // Your test execution, e.g., customer->purchaseProduct();
+    void resetInput() {
+        cin.rdbuf(cin.rdbuf()); // Reset cin to standard input
+    }
 
-    //     // Reset cin to standard input again
-    //     cin.rdbuf(cinbuf);
-    // }
 
 };
 
@@ -124,28 +125,41 @@ TEST_F(StoreTest, AddProduct) {
 TEST_F(StoreTest, UpdateProduct) {
 
     // Simulate user input for updating the product
-    simulateInput("3\n2\n50\n3\n20\n");
+    // Test update all info make sure them work
+    simulateInput("3\n1\nChicken\n2\n30\n3\n10\n4\nMeat\n5\n0\n6");
     store.updateProduct();
 
-    auto updatedProduct = store.getProductById(1);
+    auto updatedProduct = store.getProductById(3);
     ASSERT_TRUE(updatedProduct.has_value());  
-    EXPECT_EQ(updatedProduct->getQuantity(), 50);  // New quantity should be 50
-    EXPECT_EQ(updatedProduct->getPrice(), 20);  // New price should be 2.0
+    EXPECT_EQ(updatedProduct->getName(), "Chicken");
+    EXPECT_EQ(updatedProduct->getQuantity(), 30); 
+    EXPECT_EQ(updatedProduct->getPrice(), 10);  
+    EXPECT_EQ(updatedProduct->getCategory(), "Meat");
+    EXPECT_EQ(updatedProduct->getIsStock(), 0);
 }
 
+// Test for remove product
+TEST_F(StoreTest, RemoveProduct) {
 
+    simulateInput("2\n"); // Assume remove id 2
+    store.removeProduct();
 
+    auto removedProduct = store.getProductById(2);
+    EXPECT_FALSE(removedProduct.has_value());  // Product should not exist
+}
 
+// Test for view inventory
+TEST_F(StoreTest, ViewInventoryOutput) {
+    ostringstream out;
+    streambuf* coutbuf = cout.rdbuf(); //save old buf
+    cout.rdbuf(out.rdbuf()); //redirect cout to out
 
+    store.viewInventory();
 
-
-
-
-
-
-
-
-
+    cout.rdbuf(coutbuf); //reset to standard output again
+    string output = out.str();
+    EXPECT_TRUE(output.find("Product Name") != string::npos); // Check for expected content in the output
+}
 
 
 

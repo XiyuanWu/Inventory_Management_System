@@ -13,6 +13,29 @@ bool Customer::isInventoryEmpty() const {
     return inventory.empty() ? false : true;
 }
 
+
+
+bool Customer::isProductInInventory(int id) const {
+
+    const auto& inventory = getInventory();
+    
+    return any_of(inventory.begin(), inventory.end(), [id](const Product& item) {
+        return item.getID() == id;
+    });
+}
+
+
+optional<Product> Customer::getProductById(int id) const{
+
+    for (const auto& product: inventory) {
+        if (product.getID() == id) {
+            return product;
+        }
+    }
+    return nullopt;
+}
+
+
 void Customer::browseProducts() {
 
     cout << "Product Overview" << endl;
@@ -158,6 +181,8 @@ void Customer::purchaseProduct() {
             cout << "Invalid ID entered. Please enter a numeric ID: " << endl;
             continue; 
         }
+
+        cout << "(test) id: " << id << endl;
 
         if (!isProductInInventory(id)) {
             cout << "Product not in inventory, try again." << endl;

@@ -15,12 +15,12 @@ using namespace std;
 class Customer: public Store {
 
   private:
-    const std::vector<Product>& inventory;
+    const vector<Product>& inventory;
     vector<Product> shopping_cart;
 
   public:
 
-    Customer(const std::vector<Product>& inventory) : inventory(inventory) {}
+    Customer(const vector<Product>& inventory) : inventory(inventory) {}
 
 
     // Shopping
@@ -35,6 +35,8 @@ class Customer: public Store {
     double findTotalPrice();
     void clearShoppingCart();
     bool isInventoryEmpty() const;
+    bool isProductInInventory(int id) const override;
+    optional<Product> getProductById(int id) const override;
 
     // View order
     void viewOrder() const;
@@ -44,6 +46,7 @@ class Customer: public Store {
 
     // For Test purpose
     int getCartSize() { return shopping_cart.size(); }
+    int getInventorySize() { return inventory.size(); }
     // void setInventory(const vector<Inventory>& inv) { inventory = inv; }
   
 };
